@@ -42,8 +42,8 @@ public class Client {
         return email;
     }
 
-    public String setEmail( String setEmail) {
-        return email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLastName() {
