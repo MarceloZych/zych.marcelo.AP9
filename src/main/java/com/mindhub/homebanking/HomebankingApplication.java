@@ -25,9 +25,12 @@ public class HomebankingApplication {
 			clientRepository.save(client);
 
 			Account account = new Account("VIN001", LocalDate.now(), 5000);
+			Account account2 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
 
 			client.addAccountSet(account);
+			client.addAccountSet(account2);
 			accountRepository.save(account);
+			accountRepository.save(account2);
 		};
 	}
 
