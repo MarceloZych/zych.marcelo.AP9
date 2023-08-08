@@ -2,10 +2,9 @@ package com.mindhub.homebanking.models;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Client {
@@ -18,6 +17,8 @@ public class Client {
     private String lastName;
 
     private String email;
+    @OneToMany(mappedBy = "clientAccount", fetch = FetchType.EAGER)
+    private Set<Account> accountSet = new HashSet<>();
 
     public Client() {
     }
@@ -29,6 +30,10 @@ public class Client {
     }
 
     // setter & getter
+
+    public long getId() {
+        return id;
+    }
 
     public String getFirstName() {
         return firstName;
@@ -53,5 +58,14 @@ public class Client {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    // setter y getter de account
 
+    public Set<Account> getAccountSet() {
+        return accountSet;
+    }
+
+    public void addAccountSet(Account account) {
+        account.setClientAccount(this);
+        accountSet.add(account);
+    }
 }
