@@ -22,12 +22,15 @@ public class HomebankingApplication {
 									  AccountRepository accountRepository,
 									  TransactionRepository transactionRepository,
 									  LoanRepository loanRepository,
-									  ClientLoanRepository clientLoanRepository
+									  ClientLoanRepository clientLoanRepository,
+									  CardRepository cardRepository
 	){
 		return (args) -> {
 			// client
 			Client client = new Client("Melba", "Morel", "melba@mindhub.com");
+
 			clientRepository.save(client);
+
 			// client accounts
 			Account account = new Account("VIN001", LocalDate.now(), 5000);
 			Account account1 = new Account("VIN002", LocalDate.now().plusDays(1), 7500);
@@ -35,6 +38,31 @@ public class HomebankingApplication {
 			client.addAccountSet(account1);
 			accountRepository.save(account);
 			accountRepository.save(account1);
+
+			// client Card
+			Card card1 = new Card(
+					CardType.DEBIT,
+					CardColor.GOLD,
+					"1224-2587-6589-0040",
+					030,
+					LocalDate.now(),
+					LocalDate.now().plusYears(5),
+					"Melba Morel"
+			);
+			Card card2 = new Card(
+					CardType.CREDIT,
+					CardColor.TITANIUM,
+					"1224-2587-3265-5987",
+					200,
+					LocalDate.now(),
+					LocalDate.now().plusYears(5),
+					"Melba Morel"
+			);
+			client.addCard(card1);
+			client.addCard(card2);
+			cardRepository.save(card1);
+			cardRepository.save(card2);
+
 			// client2 transactions
 			Transaction transaction = new Transaction( 100, "SuperMarket shopping", LocalDate.now(), TransactionType.DEBIT);
 			Transaction transaction1 = new Transaction( 200, "SuperMarket shopping", LocalDate.now(), TransactionType.CREDIT);
@@ -54,6 +82,19 @@ public class HomebankingApplication {
 			client1.addAccountSet(account3);
 			accountRepository.save(account2);
 			accountRepository.save(account3);
+			//client 1 card
+			Card card3 = new Card(
+					CardType.CREDIT,
+					CardColor.SILVER,
+					"2314-8974-6589-6589",
+					200,
+					LocalDate.now(),
+					LocalDate.now().plusYears(5),
+					"Marcelo Zych"
+			);
+			client1.addCard(card3);
+			cardRepository.save(card3);
+
 			// client2 transactions
 			Transaction transaction2 = new Transaction( 10, "Clothes shopping", LocalDate.now(), TransactionType.DEBIT);
 			Transaction transaction3 = new Transaction( 50, "Tecnology shopping", LocalDate.now(), TransactionType.CREDIT);
@@ -61,7 +102,6 @@ public class HomebankingApplication {
 			account3.addTransactionSet(transaction3);
 			transactionRepository.save(transaction2);
 			transactionRepository.save(transaction3);
-
 			// client 2
 			Client client3 = new Client("Maria", "Sanches", "mary@mindhub.com");
 			clientRepository.save(client3);
