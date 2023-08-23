@@ -2,16 +2,21 @@ package com.mindhub.homebanking;
 
 import com.mindhub.homebanking.models.*;
 import com.mindhub.homebanking.repositories.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.*;
 
 @SpringBootApplication
 public class HomebankingApplication {
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
@@ -27,7 +32,7 @@ public class HomebankingApplication {
 	){
 		return (args) -> {
 			// client
-			Client client = new Client("Melba", "Morel", "melba@mindhub.com");
+			Client client = new Client("Melba", "Morel", "melba@mindhub.com", passwordEncoder.encode("123"));
 
 			clientRepository.save(client);
 
@@ -44,7 +49,7 @@ public class HomebankingApplication {
 					CardType.DEBIT,
 					CardColor.GOLD,
 					"1224-2587-6589-0040",
-					030,
+					300,
 					LocalDate.now(),
 					LocalDate.now().plusYears(5),
 					"Melba Morel"
@@ -56,7 +61,7 @@ public class HomebankingApplication {
 					200,
 					LocalDate.now(),
 					LocalDate.now().plusYears(5),
-					"Melba Morel"
+					client.getLastName()+" "+client.getLastName()
 			);
 			client.addCard(card1);
 			client.addCard(card2);
@@ -73,7 +78,7 @@ public class HomebankingApplication {
 
 
 			// client 1
-			Client client1 = new Client("Marcelo", "Zych", "mz@mindhub.com");
+			Client client1 = new Client("Marcelo", "Zych", "mz@mindhub.com", "123");
 			clientRepository.save(client1);
 			// client1 accounts
 			Account account2 = new Account("VIN003", LocalDate.now(), 15000);
@@ -103,7 +108,7 @@ public class HomebankingApplication {
 			transactionRepository.save(transaction2);
 			transactionRepository.save(transaction3);
 			// client 2
-			Client client3 = new Client("Maria", "Sanches", "mary@mindhub.com");
+			Client client3 = new Client("Maria", "Sanches", "mary@mindhub.com", "123 ");
 			clientRepository.save(client3);
 			// client2 accounts
 			Account account4 = new Account("VIN005", LocalDate.now(), 2500);
