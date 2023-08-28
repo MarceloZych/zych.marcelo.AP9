@@ -1,7 +1,8 @@
 package com.mindhub.homebanking.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mindhub.homebanking.repositories.AccountRepository;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ public class Account {
     private String number;
     private LocalDate creationDate;
     private double balance;
+
     // relacion muchos a uno
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clientAccount_id")
@@ -76,5 +78,20 @@ public class Account {
     public void addTransactionSet(Transaction transaction){
         transaction.setAccountTransaction(this);
         transactions.add(transaction);
+    }
+
+    public static String generateAccountNumber(AccountRepository accountRepository){
+        long number;
+
+        do{
+            number = generateRandomNumber(10000000, 99999999);
+        }while (accountRepository.existsByNumber(number));
+
+        System.out.println(number);
+
+        return "VIN-" + number;
+    }
+    public static long generateRandomNumber(long min, long max) {
+        return (long) ((Math.random() * (max - min)) + min);
     }
 }

@@ -10,4 +10,7 @@ import java.util.Set;
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Set<Client> findByLastName(String lastName);
     Client findByEmail(String email);
+
+    /*boolean existsByRandomNumber(Long number);*/
+
 }
