@@ -82,14 +82,14 @@ public class Account {
 
     public static String generateAccountNumber(AccountRepository accountRepository){
         long number;
+        String numberAccount = "";
 
         do{
             number = generateRandomNumber(10000000, 99999999);
-        }while (accountRepository.existsByNumber(number));
+            numberAccount = "VIN-" + number;
+        }while (accountRepository.existsByNumber(numberAccount));
 
-        System.out.println(number);
-
-        return "VIN-" + number;
+        return numberAccount;
     }
     public static long generateRandomNumber(long min, long max) {
         return (long) ((Math.random() * (max - min)) + min);

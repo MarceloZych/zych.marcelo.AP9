@@ -10,6 +10,6 @@ import java.util.List;
 @RepositoryRestResource
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    boolean existsByNumber(Long number);
+    boolean existsByNumber(String number);
 
 }

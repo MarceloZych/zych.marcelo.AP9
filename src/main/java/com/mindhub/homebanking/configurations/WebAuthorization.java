@@ -24,6 +24,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/clients", "/api/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/clients/current").hasAnyAuthority( "CLIENT")
                 .antMatchers(HttpMethod.POST, "/api/clients/current/accounts").hasAnyAuthority("CLIENT")
+                .antMatchers(HttpMethod.POST, "/api/clients/current/accounts/cards").hasAnyAuthority("CLIENT")
                 .antMatchers("/rest/**").hasAnyAuthority("ADMIN")
                 .anyRequest().authenticated();
         http.formLogin()
@@ -31,7 +32,7 @@ public class WebAuthorization extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 .loginPage("/api/login");
 
-        http.logout().logoutUrl("api/logout");
+        http.logout().logoutUrl("/api/logout");
         http.csrf().disable();
 
         http.headers().frameOptions().disable();

@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 public class AccountController {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Autowired
-    ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAllAccount (){
@@ -36,9 +36,20 @@ public class AccountController {
     }
 
     @GetMapping("/accounts/{id}")
-    public AccountDTO getOneAccount(@PathVariable Long id){
+    public ResponseEntity<Object> getOneAccount(@PathVariable Long id, Authentication authentication){
+        Client client = clientRepository.findByEmail(authentication.getName());
         Account account = accountRepository.findById(id).orElse(null);
-        return new AccountDTO(account);
+
+        if(account == null){
+            return new ResponseEntity<>("Account not found", HttpStatus.BAD_GATEWAY);
+        }
+
+        if( account.getClientAccount().equals(client)){
+            AccountDTO accountDTO = new AccountDTO(account);
+            return new ResponseEntity<>(accountDTO, HttpStatus.ACCEPTED);
+        }else{
+            return new ResponseEntity<>("Account is not your", HttpStatus.FORBIDDEN);
+        }
     }
 
     @RequestMapping(path = "/clients/current/accounts", method = RequestMethod.POST)
