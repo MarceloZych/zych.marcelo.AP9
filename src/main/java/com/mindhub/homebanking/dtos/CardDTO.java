@@ -25,7 +25,7 @@ public class CardDTO {
         this.cvv = card.getCvv();
         this.fromDate = card.getFromDate();
         this.thruDate = card.getThruDate();
-        this.cardHolder = getCardHolder();
+        this.cardHolder = card.getCardHolder();
     }
 
     public CardType getType() {

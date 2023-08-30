@@ -6,21 +6,21 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-public class Client {
+    @Entity
+    public class Client {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-    @GenericGenerator(name = "native", strategy = "native")
-    private long id;
-    private String firstName, lastName, email, password;
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+        @GenericGenerator(name = "native", strategy = "native")
+        private long id;
+        private String firstName, lastName, email, password;
 
-    @OneToMany(mappedBy = "clientAccount", fetch = FetchType.EAGER)
-    private Set<Account> accounts = new HashSet<>();
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    private Set<ClientLoan> clientLoans = new HashSet<>();
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    private Set<Card> clientCards = new HashSet<>();
+        @OneToMany(mappedBy = "clientAccount", fetch = FetchType.EAGER)
+        private Set<Account> accounts = new HashSet<>();
+        @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+        private Set<ClientLoan> clientLoans = new HashSet<>();
+        @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+        private Set<Card> clientCards = new HashSet<>();
 
     public Client() {
     }

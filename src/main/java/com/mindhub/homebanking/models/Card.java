@@ -103,7 +103,7 @@ public class Card {
     }
 
     public static String generateCardNumber(CardRepository cardRepository) {
-        String cardNumber;
+        String cardNumber = "";
         do {
             StringBuilder cardNumberBuilder = new StringBuilder();
             for (int i = 0; i < 4; i++) {
