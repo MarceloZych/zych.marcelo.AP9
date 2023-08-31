@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -62,10 +63,10 @@ public class CardController {
             Client client = clientRepository.findByEmail(authentication.getName());
 
             if (client != null) {
-                List<Card> cards = cardRepository.findByClient(client);
-                List<CardDTO> cardDTOs = cards.stream()
+                Set<Card> cards = cardRepository.findByClient(client);
+                Set<CardDTO> cardDTOs = cards.stream()
                         .map(clientCards -> new CardDTO(clientCards))
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toSet());
 
                 return new ResponseEntity<>(cardDTOs, HttpStatus.OK);
             } else {

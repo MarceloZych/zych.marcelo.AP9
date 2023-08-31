@@ -12,7 +12,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private long id;
-    private int amount;
+    private double amount;
     private String description;
     private LocalDate date;
     private TransactionType type;
@@ -24,7 +24,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(int amount, String description, LocalDate date, TransactionType type) {
+    public Transaction(double amount, String description, LocalDate date, TransactionType type) {
         this.amount = amount;
         this.description = description;
         this.date = date;
@@ -35,11 +35,11 @@ public class Transaction {
         return id;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

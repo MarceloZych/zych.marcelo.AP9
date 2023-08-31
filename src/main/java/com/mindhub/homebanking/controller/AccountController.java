@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -25,14 +26,25 @@ public class AccountController {
     private ClientRepository clientRepository;
 
     @GetMapping("/accounts")
-    public List<AccountDTO> getAllAccount (){
+    public Set<AccountDTO> getAllAccount (){
         List<Account> allAccounts = accountRepository.findAll();
 
-        List<AccountDTO> accountDTOSConvertedList = allAccounts
-                                                        .stream()
-                                                        .map(acc -> new AccountDTO(acc))
-                                                        .collect(Collectors.toList());
-        return accountDTOSConvertedList;
+        Set<AccountDTO> accountDTOS = allAccounts
+                .stream()
+                .map(acc -> new AccountDTO(acc))
+                .collect(Collectors.toSet());
+        return accountDTOS;
+    }
+
+    @GetMapping("/clients/current/accounts")
+    public Set<AccountDTO> getAccount (Authentication authentication){
+        Client client = clientRepository.findByEmail(authentication.getName());
+
+        Set<AccountDTO> accountDTOS = client.getAccounts()
+                .stream()
+                .map(acc -> new AccountDTO(acc))
+                .collect(Collectors.toSet());
+        return accountDTOS;
     }
 
     @GetMapping("/accounts/{id}")
@@ -44,7 +56,7 @@ public class AccountController {
             return new ResponseEntity<>("Account not found", HttpStatus.BAD_GATEWAY);
         }
 
-        if( account.getClientAccount().equals(client)){
+        if( account.getClient().equals(client)){
             AccountDTO accountDTO = new AccountDTO(account);
             return new ResponseEntity<>(accountDTO, HttpStatus.ACCEPTED);
         }else{
@@ -57,7 +69,7 @@ public class AccountController {
         Client client = clientRepository.findByEmail(authentication.getName());
 
         // Verificar si el cliente ya tiene 3 cuentas registradas
-        if (client.getAccountSet().size() >= 3) {
+        if (client.getAccounts().size() >= 3) {
             return new ResponseEntity<>("You can't have more than 3 accounts.", HttpStatus.FORBIDDEN);
         }
 

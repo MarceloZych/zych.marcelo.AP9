@@ -71,8 +71,8 @@ public class HomebankingApplication {
 			// client2 transactions
 			Transaction transaction = new Transaction( 100, "SuperMarket shopping", LocalDate.now(), TransactionType.DEBIT);
 			Transaction transaction1 = new Transaction( 200, "SuperMarket shopping", LocalDate.now(), TransactionType.CREDIT);
-			account.addTransactionSet(transaction);
-			account1.addTransactionSet(transaction1);
+			account.addTransactions(transaction);
+			account1.addTransactions(transaction1);
 			transactionRepository.save(transaction);
 			transactionRepository.save(transaction1);
 
@@ -103,8 +103,8 @@ public class HomebankingApplication {
 			// client2 transactions
 			Transaction transaction2 = new Transaction( 10, "Clothes shopping", LocalDate.now(), TransactionType.DEBIT);
 			Transaction transaction3 = new Transaction( 50, "Tecnology shopping", LocalDate.now(), TransactionType.CREDIT);
-			account2.addTransactionSet(transaction2);
-			account3.addTransactionSet(transaction3);
+			account2.addTransactions(transaction2);
+			account3.addTransactions(transaction3);
 			transactionRepository.save(transaction2);
 			transactionRepository.save(transaction3);
 			// client 2
@@ -120,8 +120,8 @@ public class HomebankingApplication {
 			// client2 transaction
 			Transaction transaction4 = new Transaction( 100, "Tecnology Shopping", LocalDate.now(), TransactionType.CREDIT);
 			Transaction transaction5 = new Transaction( 50, "SuperMarket Shopping", LocalDate.now(), TransactionType.DEBIT);
-			account4.addTransactionSet(transaction4);
-			account5.addTransactionSet(transaction5);
+			account4.addTransactions(transaction4);
+			account5.addTransactions(transaction5);
 			transactionRepository.save(transaction4);
 			transactionRepository.save(transaction5);
 

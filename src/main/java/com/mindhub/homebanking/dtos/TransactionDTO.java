@@ -1,17 +1,13 @@
 package com.mindhub.homebanking.dtos;
 
-import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Transaction;
 import com.mindhub.homebanking.models.TransactionType;
 
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
 public class TransactionDTO {
     private long id;
-    private int amount;
+    private double amount;
     private String description;
     private LocalDate date;
     private TransactionType type;
@@ -24,7 +20,7 @@ public class TransactionDTO {
         this.type = transaction.getType();
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 

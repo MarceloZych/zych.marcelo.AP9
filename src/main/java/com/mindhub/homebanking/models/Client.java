@@ -15,7 +15,7 @@ import java.util.Set;
         private long id;
         private String firstName, lastName, email, password;
 
-        @OneToMany(mappedBy = "clientAccount", fetch = FetchType.EAGER)
+        @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
         private Set<Account> accounts = new HashSet<>();
         @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
         private Set<ClientLoan> clientLoans = new HashSet<>();
@@ -71,12 +71,12 @@ import java.util.Set;
     }
     // account
 
-    public Set<Account> getAccountSet() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
     public void addAccountSet(Account account) {
-        account.setClientAccount(this);
+        account.setClient(this);
         accounts.add(account);
     }
     // ClientLoan
