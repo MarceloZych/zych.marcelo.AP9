@@ -22,6 +22,10 @@ public class AccountDTO {
         this.transactions = account.getTransactions().stream().map(transaction -> new TransactionDTO(transaction)).collect(Collectors.toSet());
     }
 
+    public long getId(){
+        return id;
+    }
+
     public String getNumber() {
         return number;
     }
