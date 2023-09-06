@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,7 +65,7 @@ public class ClientController {
 
         String checkingAccountNumber = Account.generateAccountNumber(accountRepository);
 
-        Account account = new Account(checkingAccountNumber, LocalDate.now(),0.0);
+        Account account = new Account(checkingAccountNumber, LocalDateTime.now(),0.0);
         client.addAccountSet(account);
         clientRepository.save(client);
         accountRepository.save(account);

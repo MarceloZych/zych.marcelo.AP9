@@ -3,7 +3,7 @@ package com.mindhub.homebanking.models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Transaction {
@@ -14,7 +14,7 @@ public class Transaction {
     private long id;
     private double amount;
     private String description;
-    private LocalDate date;
+    private LocalDateTime date;
     private TransactionType type;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -24,7 +24,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(double amount, String description, LocalDate date, TransactionType type) {
+    public Transaction(double amount, String description, LocalDateTime date, TransactionType type) {
         this.amount = amount;
         this.description = description;
         this.date = date;
@@ -51,11 +51,11 @@ public class Transaction {
         this.description = description;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

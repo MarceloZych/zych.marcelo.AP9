@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -76,7 +76,7 @@ public class AccountController {
         // Crear la nueva cuenta
         String checkingAccountNumber = Account.generateAccountNumber(accountRepository);
 
-        Account account = new Account(checkingAccountNumber, LocalDate.now(),0.0);
+        Account account = new Account(checkingAccountNumber, LocalDateTime.now(),0.0);
         client.addAccountSet(account);
         accountRepository.save(account);
 

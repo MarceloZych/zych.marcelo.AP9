@@ -13,10 +13,8 @@ public class Loan {
     private double maxAmount;
     @ElementCollection
     private Set<Integer> payments;
-    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "loan", fetch = FetchType.EAGER)
     private Set<ClientLoan> clientLoans = new HashSet<>();
-
-
 
     public Loan() {
     }
@@ -58,4 +56,8 @@ public class Loan {
     // getter and setter ClientLoan
     public Set<ClientLoan> getClientLoans(){ return clientLoans;}
 
+    public void addClientLoans(ClientLoan clientLoan){
+        clientLoan.setLoan(this);
+        clientLoans.add(clientLoan);
+    }
 }

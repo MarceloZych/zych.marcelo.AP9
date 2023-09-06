@@ -12,6 +12,8 @@ import java.util.Set;
 @RepositoryRestResource
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
+    boolean existsByNumberAndClient(String number, Client client);
+
     boolean existsByNumber(String number);
 
     Account findByNumber(String number);

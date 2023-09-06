@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,13 +43,13 @@ public class CardController {
         int cvvNumber = Card.generateRandomNumber(100, 999);
 
         Card card = new Card(
-                cardType,
-                cardColor,
-                cardNumber,
-                cvvNumber,
-                LocalDate.now(),
-                LocalDate.now().plusYears(5),
-                client.getFirstName() + " " + client.getLastName()
+                            cardType,
+                            cardColor,
+                            cardNumber,
+                            cvvNumber,
+                            LocalDateTime.now(),
+                            LocalDateTime.now().plusYears(5),
+                            client.getFirstName() + " " + client.getLastName()
         );
 
         client.addCard(card);

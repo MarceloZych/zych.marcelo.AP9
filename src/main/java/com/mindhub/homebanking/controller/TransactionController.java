@@ -1,6 +1,5 @@
 package com.mindhub.homebanking.controller;
 
-import com.mindhub.homebanking.dtos.AccountDTO;
 import com.mindhub.homebanking.models.Account;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.models.Transaction;
@@ -14,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api")
@@ -64,9 +63,9 @@ public class TransactionController {
             return new ResponseEntity<>("Amount is not enough", HttpStatus.FORBIDDEN);
         }
 
-        Transaction newTransactionDebit = new Transaction(-amount, description, LocalDate.now(), TransactionType.DEBIT);
+        Transaction newTransactionDebit = new Transaction(-amount, description, LocalDateTime.now(), TransactionType.DEBIT);
         transactionRepository.save(newTransactionDebit);
-        Transaction newTransactionCredit = new Transaction(amount, description, LocalDate.now(), TransactionType.CREDIT);
+        Transaction newTransactionCredit = new Transaction(amount, description, LocalDateTime.now(), TransactionType.CREDIT);
         transactionRepository.save(newTransactionCredit);
 
         accountFrom.addTransactions(newTransactionDebit);
@@ -81,6 +80,6 @@ public class TransactionController {
         accountRepository.save(accountFrom);
         accountRepository.save(accountDestiny);
 
-        return new ResponseEntity<>("Transaction succefull", HttpStatus.CREATED);
+        return new ResponseEntity<>("Transaction succefull !", HttpStatus.CREATED);
     }
 }
