@@ -7,6 +7,9 @@ import com.mindhub.homebanking.models.TransactionType;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.repositories.TransactionRepository;
+import com.mindhub.homebanking.service.AccountService;
+import com.mindhub.homebanking.service.ClientService;
+import com.mindhub.homebanking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +23,12 @@ import java.time.LocalDateTime;
 public class TransactionController {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private TransactionService transactionService;
     @Autowired
-    private AccountRepository accountRepository;
+    private ClientService clientService;
     @Autowired
-    private TransactionRepository transactionRepository;
+    private AccountService accountService;
+
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Object> transaction(
@@ -34,9 +38,9 @@ public class TransactionController {
             @RequestParam String description,
             Authentication authentication
     ){
-        Client client = clientRepository.findByEmail(authentication.getName());
-        Account accountFrom = accountRepository.findByNumber(fromAccountNumber);
-        Account accountDestiny = accountRepository.findByNumber(toAccountNumber);
+        Client client =  clientService.findClientByEmailService(authentication.getName());
+        Account accountFrom = accountService.findAccountNumberService(fromAccountNumber);
+        Account accountDestiny = accountService.findAccountNumberService(toAccountNumber);
 
         if (fromAccountNumber.isEmpty() || toAccountNumber.isEmpty())  {
             return new ResponseEntity<>("Missing account information", HttpStatus.FORBIDDEN);
@@ -50,13 +54,13 @@ public class TransactionController {
         if (accountFrom.equals(accountDestiny)){
             return new ResponseEntity<>("You cannot send to the same account number", HttpStatus.FORBIDDEN);
         }
-        if (!accountRepository.existsByNumber(fromAccountNumber)){
+        if (!accountService.existByNumberService(fromAccountNumber)){
             return new ResponseEntity<>("Origin account is not exist", HttpStatus.FORBIDDEN);
         }
         if (!client.getAccounts().contains(accountFrom)){
             return new ResponseEntity<>("Account dosen't belong to you", HttpStatus.FORBIDDEN);
         }
-        if (!accountRepository.existsByNumber(toAccountNumber)){
+        if (!accountService.existByNumberService(toAccountNumber)){
             return new ResponseEntity<>("Account not exist", HttpStatus.FORBIDDEN);
         }
         if (accountFrom.getBalance() < amount){
@@ -64,9 +68,9 @@ public class TransactionController {
         }
 
         Transaction newTransactionDebit = new Transaction(-amount, description, LocalDateTime.now(), TransactionType.DEBIT);
-        transactionRepository.save(newTransactionDebit);
+        transactionService.transactionSaveService(newTransactionDebit);
         Transaction newTransactionCredit = new Transaction(amount, description, LocalDateTime.now(), TransactionType.CREDIT);
-        transactionRepository.save(newTransactionCredit);
+        transactionService.transactionSaveService(newTransactionCredit);
 
         accountFrom.addTransactions(newTransactionDebit);
         accountDestiny.addTransactions(newTransactionCredit);
@@ -77,8 +81,8 @@ public class TransactionController {
         accountFrom.setBalance(balanceAccountFrom - amount);
         accountDestiny.setBalance(balanceAccountDestiny + amount);
 
-        accountRepository.save(accountFrom);
-        accountRepository.save(accountDestiny);
+        accountService.saveAccountService(accountFrom);
+        accountService.saveAccountService(accountDestiny);
 
         return new ResponseEntity<>("Transaction succefull !", HttpStatus.CREATED);
     }

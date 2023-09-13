@@ -7,6 +7,8 @@ import com.mindhub.homebanking.models.CardType;
 import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
+import com.mindhub.homebanking.service.CardService;
+import com.mindhub.homebanking.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +27,19 @@ public class CardController {
     @Autowired
     private CardRepository cardRepository;
     @Autowired
-    private ClientRepository clientRepository;
+    private CardService cardService;
+    @Autowired
+    private ClientService clientService;
 
-    @RequestMapping(path = "/clients/current/cards", method = RequestMethod.POST)
-
+    @PostMapping("/clients/current/cards")
     public ResponseEntity<Object> createCard(
             @RequestParam CardType cardType,
             @RequestParam CardColor cardColor,
-            Authentication authentication){
-        Client client = clientRepository.findByEmail(authentication.getName());
+            Authentication authentication)
+    {
+        Client client = clientService.findClientByEmailService(authentication.getName());
 
-        if (cardRepository.existsByClientAndTypeAndColor(client, cardType, cardColor)){
+        if (cardService.existsCardService(client, cardType, cardColor)){
             return new ResponseEntity<>("You can't have more cards of this color", HttpStatus.FORBIDDEN);
         }
 
@@ -54,14 +58,14 @@ public class CardController {
 
         client.addCard(card);
 
-        cardRepository.save(card);
+        cardService.saveCardService(card);
 
         return new ResponseEntity<>("Card created successfully", HttpStatus.CREATED);
     }
 
         @GetMapping(value = "/clients/current/cards")
         public ResponseEntity<Object> cardClient (Authentication authentication){
-            Client client = clientRepository.findByEmail(authentication.getName());
+            Client client = clientService.findClientByEmailService(authentication.getName());
 
             if (client != null) {
                 Set<Card> cards = cardRepository.findByClient(client);
@@ -71,7 +75,7 @@ public class CardController {
 
                 return new ResponseEntity<>(cardDTOs, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Client dont exist",HttpStatus.FORBIDDEN);
             }
 
         }
