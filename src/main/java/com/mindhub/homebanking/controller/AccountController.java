@@ -6,6 +6,7 @@ import com.mindhub.homebanking.models.Client;
 import com.mindhub.homebanking.repositories.AccountRepository;
 import com.mindhub.homebanking.service.AccountService;
 import com.mindhub.homebanking.service.ClientService;
+import com.mindhub.homebanking.utils.AccountUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,7 +73,7 @@ public class AccountController {
         }
 
         // Crear la nueva cuenta
-        String checkingAccountNumber = Account.generateAccountNumber(accountRepository);
+        String checkingAccountNumber = AccountUtils.generateAccountNumber(accountRepository);
 
         Account account = new Account(checkingAccountNumber, LocalDateTime.now(),0.0);
         client.addAccountSet(account);

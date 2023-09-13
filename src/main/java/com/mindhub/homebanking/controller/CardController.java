@@ -9,6 +9,7 @@ import com.mindhub.homebanking.repositories.CardRepository;
 import com.mindhub.homebanking.repositories.ClientRepository;
 import com.mindhub.homebanking.service.CardService;
 import com.mindhub.homebanking.service.ClientService;
+import com.mindhub.homebanking.utils.CardUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,8 @@ public class CardController {
             return new ResponseEntity<>("You can't have more cards of this color", HttpStatus.FORBIDDEN);
         }
 
-        String cardNumber = Card.generateCardNumber(cardRepository);
-        int cvvNumber = Card.generateRandomNumber(100, 999);
+        String cardNumber = CardUtils.generateCardNumber(cardRepository);
+        int cvvNumber = CardUtils.generateRandomNumber(100, 999);
 
         Card card = new Card(
                             cardType,
