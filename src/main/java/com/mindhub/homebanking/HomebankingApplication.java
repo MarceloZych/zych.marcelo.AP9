@@ -16,14 +16,15 @@ import java.util.*;
 @SpringBootApplication
 public class HomebankingApplication {
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+//	@Autowired
+//	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(HomebankingApplication.class, args);
 	}
 
-/*	@Bean
+	/*
+	 @Bean
 	public CommandLineRunner initData(ClientRepository clientRepository,
 									  AccountRepository accountRepository,
 									  TransactionRepository transactionRepository,
@@ -130,7 +131,9 @@ public class HomebankingApplication {
 			Loan mortgage = new Loan("Hipotecario", 500000, new HashSet<>(Arrays.asList(12, 24, 36, 48, 60)));
 			Loan personal = new Loan("Personal", 100000, new HashSet<>(Arrays.asList(6, 12, 24)));
 			Loan automobile = new Loan("Automotriz", 300000, new HashSet<>(Arrays.asList(6, 12, 24, 36)));
-			loanRepository.saveAll(Arrays.asList(mortgage, personal, automobile));
+			loanRepository.save(mortgage);
+			loanRepository.save(personal);
+			loanRepository.save(automobile);
 
 			// client payment
 			ClientLoan clientLoan1 = new ClientLoan(400000,6);
@@ -153,7 +156,8 @@ public class HomebankingApplication {
 			clientLoanRepository.save(clientLoan3);
 			clientLoanRepository.save(clientLoan4);
 		};
+
 }
-*/
+			*/
 
 }
